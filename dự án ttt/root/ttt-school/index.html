@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THPT Trần Thánh Tông - Kỷ niệm tuổi học trò</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-section">
+                <img src="images/logottt.jpg" alt="Logo THPT Trần Thánh Tông" class="logo">
+                <div class="school-info">
+                    <h1>THPT Trần Thánh Tông</h1>
+                    <p>Nơi lưu giữ những kỷ niệm đẹp nhất</p>
+                </div>
+            </div>
+            
+            <!-- Message Button -->
+            <button class="message-btn" onclick="openMessageBox()">
+                <i class="fas fa-envelope"></i>
+                <span>Bồ câu đưa thư</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Hero Section -->
+            <section class="hero">
+                <h2>Chào mừng đến với kỷ niệm tuổi học trò</h2>
+                <p>Khám phá những khoảnh khắc đẹp của từng lớp học</p>
+            </section>
+
+            <!-- Grade Selection -->
+            <section class="grades-section">
+                <h3>Chọn khối lớp</h3>
+                <div class="grades-container">
+                    <div class="grade-card" onclick="showClasses(10)">
+                        <div class="grade-number">10</div>
+                        <div class="grade-info">
+                            <h4>Khối 10</h4>
+                            <p>Những bước chân đầu tiên</p>
+                            <span class="class-count" id="grade-10-count">0 lớp</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="grade-card" onclick="showClasses(11)">
+                        <div class="grade-number">11</div>
+                        <div class="grade-info">
+                            <h4>Khối 11</h4>
+                            <p>Tuổi trẻ nhiệt huyết</p>
+                            <span class="class-count" id="grade-11-count">0 lớp</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="grade-card" onclick="showClasses(12)">
+                        <div class="grade-number">12</div>
+                        <div class="grade-info">
+                            <h4>Khối 12</h4>
+                            <p>Những kỷ niệm cuối cấp</p>
+                            <span class="class-count" id="grade-12-count">0 lớp</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Idol Ranking Section -->
+            <section class="idol-section">
+                <h3>
+                    <i class="fas fa-star"></i>
+                    Idol Trần Thánh Tong
+                </h3>
+                <p class="idol-desc">Top 10 bạn được yêu thích nhất</p>
+                
+                <div class="idol-ranking" id="idol-ranking">
+                    <!-- Top 3 đặc biệt -->
+                    <div class="top-3">
+                        <div class="idol-card rank-2" id="rank-2">
+                            <div class="rank-badge">2</div>
+                            <img src="images/default-avatar.png" alt="Avatar" class="idol-avatar">
+                            <h4>Đang cập nhật...</h4>
+                            <div class="hearts">
+                                <i class="fas fa-heart"></i>
+                                <span>0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="idol-card rank-1" id="rank-1">
+                            <div class="rank-badge crown">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <img src="images/default-avatar.png" alt="Avatar" class="idol-avatar">
+                            <h4>Đang cập nhật...</h4>
+                            <div class="hearts">
+                                <i class="fas fa-heart"></i>
+                                <span>0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="idol-card rank-3" id="rank-3">
+                            <div class="rank-badge">3</div>
+                            <img src="images/default-avatar.png" alt="Avatar" class="idol-avatar">
+                            <h4>Đang cập nhật...</h4>
+                            <div class="hearts">
+                                <i class="fas fa-heart"></i>
+                                <span>0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top 4-10 -->
+                    <div class="remaining-ranks" id="remaining-ranks">
+                        <!-- Sẽ được tạo bởi JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Classes Modal -->
+    <div class="modal" id="classes-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Danh sách lớp</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="classes-grid" id="classes-grid">
+                    <!-- Sẽ được tạo bởi JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal" id="message-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-dove"></i>
+                    Bồ câu đưa thư
+                </h3>
+                <button class="close-btn" onclick="closeMessageBox()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="message-form" onsubmit="sendMessage(event)">
+                    <div class="form-group">
+                        <label for="sender-name">Tên của bạn:</label>
+                        <input type="text" id="sender-name" required placeholder="Nhập tên của bạn">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sender-class">Lớp:</label>
+                        <input type="text" id="sender-class" placeholder="VD: 11A3 (không bắt buộc)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message-content">Nội dung:</label>
+                        <textarea id="message-content" required placeholder="Chia sẻ cảm xúc, kỷ niệm hoặc lời nhắn gửi của bạn..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Gửi thư
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Đang tải...</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 THPT Trần Thánh Tông - Nơi lưu giữ kỷ niệm</p>
+            <p>
+                <a href="admin.html" class="admin-link">
+                    <i class="fas fa-cog"></i>
+                    Quản trị
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
