@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THPT Trần Thánh Tông</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --border-radius: 20px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Animated background elements */
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-decoration::before,
+        .bg-decoration::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .bg-decoration::before {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-decoration::after {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            background: #f8f9fa;
+            object-fit: cover;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .school-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .school-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-weight: 300;
+        }
+
+        /* Grade Selection */
+        .grade-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .grade-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .grade-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .grade-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .grade-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .grade-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .grade-info h3 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .grade-info p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .grade-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Idol Ranking */
+        .idol-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+        }
+
+        .idol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .idol-card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .idol-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 15px 30px rgba(231, 76, 60, 0.2);
+        }
+
+        .idol-rank {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .idol-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background: #f1f2f6;
+            border: 3px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
+        .idol-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .idol-class {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .idol-likes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Message Section */
+        .message-section {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .message-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .message-btn::before {
+            content: '💌';
+            font-size: 1.8rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .message-tooltip {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .message-btn:hover .message-tooltip {
+            opacity: 1;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.7);
+            animation: modalSlideIn 0.3s ease forwards;
+        }
+
+        @keyframes modalSlideIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Message */
+        .success-message {
+            background: var(--success-color);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .school-title {
+                font-size: 2rem;
+            }
+
+            .logo-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .grade-selection {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .grade-card {
+                padding: 30px 20px;
+            }
+
+            .grade-number {
+                font-size: 3rem;
+            }
+
+            .idol-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .message-section {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .message-btn {
+                width: 60px;
+                height: 60px;
+                padding: 15px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .school-title {
+                font-size: 1.6rem;
+            }
+
+            .grade-card {
+                padding: 25px 15px;
+            }
+
+            .idol-section {
+                padding: 30px 20px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-decoration"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <img src="logottt.jpg" alt="Logo THPT Trần Thánh Tông" class="logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iNTAiIGZpbGw9IiM2NjdlZWEiLz4KPHRleHQgeD0iNTAiIHk9IjU1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VFRUJHR3dD4KPC9zdmc+'">
+                <div>
+                    <h1 class="school-title">THPT Trần Thánh Tông</h1>
+                    <p class="school-subtitle">Trường Trung học Phổ thông</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Grade Selection -->
+        <section class="grade-selection">
+            <div class="grade-card" data-grade="10" onclick="selectGrade(10)">
+                <div class="grade-number">10</div>
+                <div class="grade-info">
+                    <h3>Khối 10</h3>
+                    <p>Năm học 2024-2025</p>
+                </div>
+                <div class="grade-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="grade10-classes">5</div>
+                        <div class="stat-label">Lớp</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="grade10-students">200</div>
+                        <div class="stat-label">Học sinh</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grade-card" data-grade="11" onclick="selectGrade(11)">
+                <div class="grade-number">11</div>
+                <div class="grade-info">
+                    <h3>Khối 11</h3>
+                    <p>Năm học 2023-2024</p>
+                </div>
+                <div class="grade-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="grade11-classes">5</div>
+                        <div class="stat-label">Lớp</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="grade11-students">195</div>
+                        <div class="stat-label">Học sinh</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grade-card" data-grade="12" onclick="selectGrade(12)">
+                <div class="grade-number">12</div>
+                <div class="grade-info">
+                    <h3>Khối 12</h3>
+                    <p>Năm học 2022-2023</p>
+                </div>
+                <div class="grade-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="grade12-classes">5</div>
+                        <div class="stat-label">Lớp</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="grade12-students">180</div>
+                        <div class="stat-label">Học sinh</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top 10 Idol -->
+        <section class="idol-section">
+            <h2 class="section-title">🏆 Top 10 Idol Trần Thánh Tông</h2>
+            <div class="idol-grid" id="idolGrid">
+                <div class="loading">Đang tải danh sách idol...</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Message Button -->
+    <div class="message-section">
+        <button class="message-btn" onclick="openMessageModal()">
+            <div class="message-tooltip">Bồ câu đưa thư</div>
+        </button>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal" id="messageModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeMessageModal()">&times;</button>
+            <h3 class="modal-title">💌 Gửi tin nhắn</h3>
+            <form id="messageForm" onsubmit="sendMessage(event)">
+                <div class="form-group">
+                    <input type="text" class="form-input" name="sender" placeholder="Tên của bạn" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-textarea" name="content" placeholder="Nội dung tin nhắn..." required></textarea>
+                </div>
+                <button type="submit" class="form-btn">Gửi tin nhắn</button>
+                <div class="success-message" id="successMessage">
+                    Tin nhắn đã được gửi thành công! 🎉
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global data storage
+        let schoolData = {
+            classes: {},
+            members: {},
+            messages: []
+        };
+
+        // Initialize website
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadData();
+            renderIdolRanking();
+            updateGradeStats();
+        });
+
+        // Load data from JSON files
+        async function loadData() {
+            try {
+                // Try to load from JSON files
+                const [classesResponse, membersResponse] = await Promise.all([
+                    fetch('data/classes.json').catch(() => null),
+                    fetch('data/members.json').catch(() => null)
+                ]);
+
+                if (classesResponse && classesResponse.ok) {
+                    schoolData.classes = await classesResponse.json();
+                } else {
+                    // Create default classes data
+                    schoolData.classes = createDefaultClassesData();
+                }
+
+                if (membersResponse && membersResponse.ok) {
+                    schoolData.members = await membersResponse.json();
+                } else {
+                    // Create default members data
+                    schoolData.members = createDefaultMembersData();
+                }
+
+                console.log('Data loaded successfully');
+            } catch (error) {
+                console.log('Using default data structure');
+                schoolData.classes = createDefaultClassesData();
+                schoolData.members = createDefaultMembersData();
+            }
+        }
+
+        // Create default classes data structure
+        function createDefaultClassesData() {
+            return {
+                grades: {
+                    "10": ["10A1", "10A2", "10A3", "10A4", "10A5"],
+                    "11": ["11A1", "11A2", "11A3", "11A4", "11A5"],
+                    "12": ["12A1", "12A2", "12A3", "12A4", "12A5"]
+                },
+                classDetails: {
+                    "10A1": {
+                        teacher: "Cô Nguyễn Thị Hoa",
+                        subject: "Toán",
+                        year: "2024-2025",
+                        folder: "10a1-2025"
+                    },
+                    "10A2": {
+                        teacher: "Thầy Trần Văn Nam",
+                        subject: "Lý",
+                        year: "2024-2025",
+                        folder: "10a2-2025"
+                    },
+                    "11A1": {
+                        teacher: "Cô Lê Thị Mai",
+                        subject: "Văn",
+                        year: "2023-2024",
+                        folder: "11a1-2024"
+                    },
+                    "12A1": {
+                        teacher: "Thầy Phạm Minh Tuấn",
+                        subject: "Hóa",
+                        year: "2022-2023",
+                        folder: "12a1-2023"
+                    }
+                }
+            };
+        }
+
+        // Create default members data
+        function createDefaultMembersData() {
+            const members = {};
+            const sampleNames = [
+                "Nguyễn Văn An", "Trần Thị Bảo", "Lê Minh Cường", "Phạm Thị Dung",
+                "Hoàng Văn Em", "Vũ Thị Phương", "Đỗ Minh Giang", "Bùi Thị Hương",
+                "Ngô Văn Tuấn", "Phan Thị Lan", "Đinh Minh Khoa", "Lý Thị Mai",
+                "Trịnh Văn Nam", "Cao Thị Oanh", "Hồ Minh Phú", "Chu Thị Quỳnh"
+            ];
+
+            const classes = ["10A1", "10A2", "11A1", "11A2", "12A1", "12A2"];
+            
+            classes.forEach(className => {
+                members[className] = [];
+                
+                // Add 8-12 students per class with random likes
+                const studentCount = Math.floor(Math.random() * 5) + 8;
+                for (let i = 0; i < studentCount; i++) {
+                    const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
+                    const likes = Math.floor(Math.random() * 50) + 5;
+                    
+                    members[className].push({
+                        id: `${className.toLowerCase()}_${String(i + 1).padStart(3, '0')}`,
+                        name: `${randomName} ${i + 1}`,
+                        imageA: `uploads/${className.toLowerCase()}-2024/student${String(i + 1).padStart(3, '0')}_a.jpg`,
+                        imageB: `uploads/${className.toLowerCase()}-2024/student${String(i + 1).padStart(3, '0')}_b.jpg`,
+                        bio: `Học sinh lớp ${className}`,
+                        likes: likes,
+                        class: className
+                    });
+                }
+            });
+
+            return members;
+        }
+
+        // Render top 10 idol ranking
+        function renderIdolRanking() {
+            const idolGrid = document.getElementById('idolGrid');
+            
+            // Collect all students and sort by likes
+            const allStudents = [];
+            Object.values(schoolData.members).forEach(classMembers => {
+                if (Array.isArray(classMembers)) {
+                    allStudents.push(...classMembers);
+                }
+            });
+
+            // Sort by likes (descending) and take top 10
+            const topIdols = allStudents
+                .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+                .slice(0, 10);
+
+            if (topIdols.length === 0) {
+                idolGrid.innerHTML = '<div class="loading">Chưa có dữ liệu học sinh</div>';
+                return;
+            }
+
+            // Render idol cards
+            idolGrid.innerHTML = topIdols.map((student, index) => `
+                <div class="idol-card" onclick="viewStudentProfile('${student.id}')">
+                    <div class="idol-rank">${index + 1}</div>
+                    <img src="${student.imageA || getDefaultAvatar()}" 
+                         alt="${student.name}" 
+                         class="idol-avatar"
+                         onerror="
